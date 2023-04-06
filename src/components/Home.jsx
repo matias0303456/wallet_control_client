@@ -1,13 +1,14 @@
 import { useRef, useState } from "react"
 
 import { LoginForm } from "./LoginForm"
-import { getPeriods, openPeriod } from "../api/service"
+import { getPeriods, openPeriod, getTypes } from "../api/service"
 import { PeriodsTable } from "./PeriodsTable"
 
 export function Home() {
 
     const [keyword, setKeyword] = useState(null)
     const [periods, setPeriods] = useState([])
+    const [types, setTypes] = useState([])
     const hasRun = useRef(false)
 
     if (!keyword) {
@@ -17,6 +18,10 @@ export function Home() {
             getPeriods(keyword)
                 .then(data => {
                     setPeriods(data)
+                })
+            getTypes(keyword)
+                .then(data => {
+                    setTypes(data)
                 })
             hasRun.current = true
         }
@@ -47,6 +52,7 @@ export function Home() {
                 periods={periods}
                 setPeriods={setPeriods}
                 keyword={keyword}
+                types={types}
             />
         </>
     )
